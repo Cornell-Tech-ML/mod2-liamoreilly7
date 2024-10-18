@@ -17,3 +17,36 @@ python sync_previous_module.py previous-module-dir current-module-dir
 The files that will be synced are:
 
         minitorch/operators.py minitorch/module.py minitorch/autodiff.py minitorch/scalar.py minitorch/scalar_functions.py minitorch/module.py project/run_manual.py project/run_scalar.py project/datasets.py
+
+### 2.5
+#### Linear:
+Size of Hidden Layer: 3
+Learning Rate: 0.5
+Number of Epochs: 100
+Time per Epoch: 0.059s
+![Linear Plot](./linearplot.png)
+![Linear Log](./linearlog.png)
+
+####Diag
+Size of Hidden Layer: 3
+Learning Rate: 0.5
+Number of Epochs: 500
+Time per Epoch: 0.060s
+![Diag Plot](./diagplot.png)
+![Diag Log](./diaglog.png)
+
+####Split
+Size of Hidden Layer: 5
+Learning Rate: 1.0
+Number of Epochs: 500
+Time per Epoch: 0.110s
+![Split Plot](./splitplot.png)
+![Split Log](./splotlog.png)
+
+####XOR
+Size of Hidden Layer: 5
+Learning Rate: 0.5
+Number of Epochs: 500
+Time per Epoch: 0.109s
+![XOR Plot](./xorplot.png)
+![XOR Log](./xorlog.png)

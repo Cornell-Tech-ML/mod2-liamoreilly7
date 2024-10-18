@@ -200,6 +200,7 @@ class Tensor:
         # END CODE CHANGE (2021)
 
     def zeros(self, shape: Optional[UserShape] = None) -> Tensor:
+        """Creates a tensor filled with zeros of the specified shape."""
         def zero(shape: UserShape) -> Tensor:
             return Tensor.make(
                 [0.0] * int(operators.prod(shape)), shape, backend=self.backend
@@ -390,4 +391,5 @@ class Tensor:
     def zero_grad_(self) -> None: 
         """Reset the derivative on this variable."""
         self.grad = None
+
 

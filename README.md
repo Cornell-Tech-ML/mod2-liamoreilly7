@@ -27,7 +27,7 @@ Time per Epoch: 0.059s
 ![Linear Plot](./linearplot.png)
 ![Linear Log](./linearlog.png)
 
-####Diag
+#### Diag
 Size of Hidden Layer: 3
 Learning Rate: 0.5
 Number of Epochs: 500
@@ -35,7 +35,7 @@ Time per Epoch: 0.060s
 ![Diag Plot](./diagplot.png)
 ![Diag Log](./diaglog.png)
 
-####Split
+#### Split
 Size of Hidden Layer: 5
 Learning Rate: 1.0
 Number of Epochs: 500
@@ -43,7 +43,7 @@ Time per Epoch: 0.110s
 ![Split Plot](./splitplot.png)
 ![Split Log](./splotlog.png)
 
-####XOR
+#### XOR
 Size of Hidden Layer: 5
 Learning Rate: 0.5
 Number of Epochs: 500

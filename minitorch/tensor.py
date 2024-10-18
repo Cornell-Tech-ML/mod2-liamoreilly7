@@ -280,7 +280,13 @@ class Tensor:
         ]
 
     def backward(self, grad_output: Optional[Tensor] = None) -> None:
-        """Compute the backward pass for this tensor."""
+        """Compute the backward pass for this tensor.
+
+        Args:
+        ----
+            grad_output : Optional; the gradient of the output with respect to the loss.
+                           If None, a default gradient of 1.0 is used for scalar outputs.
+        """
         if grad_output is None:
             assert self.shape == (1,), "Must provide grad_output if non-scalar"
             grad_output = Tensor.make([1.0], (1,), backend=self.backend)
@@ -335,7 +341,6 @@ class Tensor:
         return self * b
     
     def all(self, dim: Optional[int] = None) -> Tensor:
-        """Compute the logical AND of all elements in the tensor along the specified dimension."""
         if dim is None:
             return All.apply(self.view(self.size), self._ensure_tensor(0))
         else:
@@ -386,5 +391,4 @@ class Tensor:
     def zero_grad_(self) -> None: 
         """Reset the derivative on this variable."""
         self.grad = None
-
 

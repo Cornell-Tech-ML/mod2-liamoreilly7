@@ -270,7 +270,12 @@ class View(Function):
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
         """Matrix Multiply backward (module 3)"""
         (original,) = ctx.saved_values
-        return (minitorch.Tensor.make( grad_output._tensor._storage, original, backend=grad_output.backend), 0.0,)
+        return (
+            minitorch.Tensor.make(
+                grad_output._tensor._storage, original, backend=grad_output.backend
+            ),
+            0.0,
+        )
 
 
 class Copy(Function):
@@ -427,7 +432,7 @@ def grad_central_difference(
 
     Returns:
         float: The estimated gradient at the specified argument.
-
+        
     """
     x = vals[arg]
     up = zeros(x.shape)
@@ -469,6 +474,5 @@ but was expecting derivative %f from central difference.
             1e-2,
             err_msg=err_msg % (f, vals, x.grad[ind], i, ind, check),
         )
-
 
 

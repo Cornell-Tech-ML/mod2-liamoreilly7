@@ -100,40 +100,9 @@ def broadcast_index(
             out_index[i] = big_dim_index
 
 
-def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
-    """Broadcast two shapes to create a new union shape.
-
-    Args:
-        shape1 : first shape
-        shape2 : second shape
-
-    Returns:
-        broadcasted shape
-
-    Raises:
-        IndexingError : if cannot broadcast
-
-    """
-    shape1 = list(shape1)
-    shape2 = list(shape2)
-    
-    while len(shape1) < len(shape2):
-        shape1.insert(0, 1)
-    while len(shape2) < len(shape1):
-        shape2.insert(0, 1)
-
-    broadcast_shape = []
-    for dim1, dim2 in zip(shape1, shape2):
-        if dim1 == dim2:
-            broadcast_shape.append(dim1)
-        elif dim1 == 1:
-            broadcast_shape.append(dim2)
-        elif dim2 == 1:
-            broadcast_shape.append(dim1)
-        else:
-            raise IndexingError(f"Shapes {shape1} and {shape2} cannot be broadcast together.")
-    
-    return tuple(broadcast_shape)
+def shape_broadcast(shape_a: UserShape, shape_b: UserShape) -> UserShape:
+    """Broadcast two shapes."""
+    return shape_broadcast(shape_a, shape_b)
 
 
 def strides_from_shape(shape: UserShape) -> UserStrides:
@@ -201,9 +170,11 @@ class TensorData:
 
     @staticmethod
     def shape_broadcast(shape_a: UserShape, shape_b: UserShape) -> UserShape:
+        """Broadcast two shapes."""
         return shape_broadcast(shape_a, shape_b)
 
     def index(self, index: Union[int, UserIndex]) -> int:
+        """Get the position of the specified index."""
         if isinstance(index, int):
             aindex: Index = array([index])
         else:  # if isinstance(index, tuple):
@@ -227,6 +198,7 @@ class TensorData:
         return index_to_position(array(index), self._strides)
 
     def indices(self) -> Iterable[UserIndex]:
+        """Generate all valid indices."""
         lshape: Shape = array(self.shape)
         out_index: Index = array(self.shape)
         for i in range(self.size):
@@ -234,14 +206,16 @@ class TensorData:
             yield tuple(out_index)
 
     def sample(self) -> UserIndex:
-        """Get a random valid index"""
+        """Get a random valid index."""
         return tuple((random.randint(0, s - 1) for s in self.shape))
 
     def get(self, key: UserIndex) -> float:
+        """Retrieve the value at the specified index."""
         x: float = self._storage[self.index(key)]
         return x
 
     def set(self, key: UserIndex, val: float) -> None:
+        """Set the value at the specified index."""
         self._storage[self.index(key)] = val
 
     def tuple(self) -> Tuple[Storage, Shape, Strides]:
@@ -249,15 +223,7 @@ class TensorData:
         return (self._storage, self._shape, self._strides)
 
     def permute(self, *order: int) -> TensorData:
-        """Permute the dimensions of the tensor.
-
-        Args:
-            *order: a permutation of the dimensions
-
-        Returns:
-            New `TensorData` with the same storage and a new dimension order.
-
-        """
+        """Permute the dimensions of the tensor."""
         assert list(sorted(order)) == list(
             range(len(self.shape))
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
@@ -267,7 +233,7 @@ class TensorData:
         return TensorData(self._storage, new_shape, new_strides)
 
     def to_string(self) -> str:
-        """Convert to string"""
+        """Convert the tensor data to a string representation."""
         s = ""
         for index in self.indices():
             l = ""

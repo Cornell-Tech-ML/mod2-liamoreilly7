@@ -41,7 +41,7 @@ Learning Rate: 1.0
 Number of Epochs: 500
 Time per Epoch: 0.110s
 ![Split Plot](./splitplot.png)
-![Split Log](./splotlog.png)
+![Split Log](./splitlog.png)
 
 #### XOR
 Size of Hidden Layer: 5

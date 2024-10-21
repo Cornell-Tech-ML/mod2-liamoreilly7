@@ -94,9 +94,6 @@ class Tensor:
 
         self.f = backend
         self.f = backend
-        self.size = 1
-        for dim in self.shape:
-            self.size *= dim
 
     def requires_grad_(self, x: bool) -> None:
         """Set the gradient tracking state."""
@@ -204,7 +201,7 @@ class Tensor:
 
         def zero(shape: UserShape) -> Tensor:
             return Tensor.make(
-                [0.0] * int(operators.prod(shape)), shape, backend=self.backend
+                [0.0] * int(operators.prod(list(shape))), shape, backend=self.backend
             )
 
         if shape is None:
@@ -311,6 +308,16 @@ class Tensor:
 
         """
         return self._tensor.shape
+
+    @property
+    def size(self) -> int:
+        """Size property of the tensor"""
+        return int(operators.prod(list(self.shape)))
+
+    @property
+    def dims(self) -> int:
+        """Dim property of the tensor"""
+        return len(self.shape)
 
     # Functions
     # TODO: Implement for Task 2.3.

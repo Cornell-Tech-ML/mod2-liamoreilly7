@@ -201,6 +201,7 @@ class Tensor:
 
     def zeros(self, shape: Optional[UserShape] = None) -> Tensor:
         """Creates a tensor filled with zeros of the specified shape."""
+
         def zero(shape: UserShape) -> Tensor:
             return Tensor.make(
                 [0.0] * int(operators.prod(shape)), shape, backend=self.backend
@@ -286,6 +287,7 @@ class Tensor:
         ----
             grad_output : Optional; the gradient of the output with respect to the loss.
                            If None, a default gradient of 1.0 is used for scalar outputs.
+
         """
         if grad_output is None:
             assert self.shape == (1,), "Must provide grad_output if non-scalar"
@@ -321,7 +323,7 @@ class Tensor:
 
     def __mul__(self, b: TensorLike) -> Tensor:
         return Mul.apply(self, self._ensure_tensor(b))
-    
+
     def __lt__(self, b: TensorLike) -> Tensor:
         return LT.apply(self, self._ensure_tensor(b))
 
@@ -333,14 +335,15 @@ class Tensor:
 
     def __neg__(self) -> Tensor:
         return Neg.apply(self)
-    
+
     def __radd__(self, b: TensorLike) -> Tensor:
         return self + b
 
     def __rmul__(self, b: TensorLike) -> Tensor:
         return self * b
-    
+
     def all(self, dim: Optional[int] = None) -> Tensor:
+        """Apply All function element-wise"""
         if dim is None:
             return All.apply(self.view(self.size), self._ensure_tensor(0))
         else:
@@ -387,8 +390,7 @@ class Tensor:
     def view(self, *shape: int) -> Tensor:
         """Change the shape of the tensor to a new shape with the same size"""
         return View.apply(self, tensor(list(shape)))
-    
-    def zero_grad_(self) -> None: 
+
+    def zero_grad_(self) -> None:
         """Reset the derivative on this variable."""
         self.grad = None
-
